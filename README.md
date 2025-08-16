@@ -41,7 +41,7 @@ Personalized & Smart newsletters powered by AI. Curate your news experience with
 <img width="1920" height="879" alt="ai-saas (3)" src="https://github.com/user-attachments/assets/a6fd6706-aa8f-4e09-a6c0-330122e8e722" />
 
 ### Personalize Newsletter Preferences
-<img width="1920" height="879" alt="ai-saas (3)" src="https://github.com/user-attachments/assets/46473407-92d2-4786-a806-7f1e26515204" />
+<img width="1920" height="874" alt="ai-saas (2)" src="https://github.com/user-attachments/assets/3de19162-31dc-440e-acd4-b4ac08f27cef" />
 
 ### Newsletter Dashboard
 <img width="1920" height="871" alt="ai-saas (1)" src="https://github.com/user-attachments/assets/f6b05093-dd2e-44d1-a07b-24fc780a63f3" />
