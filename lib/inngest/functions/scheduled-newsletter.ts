@@ -1,4 +1,4 @@
-import { fetchArticles } from "@/lib/news";
+import { fetchArticles, Article } from "@/lib/news";
 import { inngest } from "../client";
 import { marked } from "marked";
 import { sendEmail } from "@/lib/email";
@@ -15,7 +15,7 @@ export default inngest.createFunction(
     ],
   },
   { event: "newsletter.schedule" },
-  async ({ event, step, runId }) => {
+  async ({ event, step }) => {
     const isUserActive = await step.run("check-user-status", async () => {
       const supabase = await createClient();
       const { data, error } = await supabase
@@ -45,6 +45,61 @@ export default inngest.createFunction(
       return fetchArticles(categories);
     });
 
+    // Helper to extract text without using `any`
+    function extractSummaryText(resp: unknown): string | null {
+      // case: Gemini response with response.text()
+      if (
+        resp &&
+        typeof resp === "object" &&
+        "response" in resp &&
+        resp.response &&
+        typeof (resp as { response: unknown }).response === "object" &&
+        (resp as { response: { text?: unknown } }).response &&
+        typeof (resp as { response: { text?: unknown } }).response.text ===
+          "function"
+      ) {
+        // handled asynchronously by caller
+        return null;
+      }
+
+      // case: candidates[].content.parts[].text
+      if (
+        resp &&
+        typeof resp === "object" &&
+        "candidates" in resp &&
+        Array.isArray((resp as { candidates: unknown[] }).candidates)
+      ) {
+        const candidate = (
+          resp as {
+            candidates: Array<{
+              content?: { parts?: Array<{ text?: string }> };
+            }>;
+          }
+        ).candidates[0];
+        const parts = candidate?.content?.parts ?? [];
+        const text = parts.map((p) => p?.text ?? "").join("");
+        if (text) return text;
+      }
+
+      // case: OpenAI-like shape: choices[0].message.content
+      if (
+        resp &&
+        typeof resp === "object" &&
+        "choices" in resp &&
+        Array.isArray((resp as { choices: unknown[] }).choices)
+      ) {
+        const choice = (
+          resp as { choices: Array<{ message?: { content?: string } }> }
+        ).choices[0];
+        const text = choice?.message?.content ?? "";
+        if (text) return text;
+      }
+
+      // fallback
+      if (typeof resp === "string") return resp;
+      return null;
+    }
+
     // generate ai summary
     try {
       const summary = await step.ai.infer("summarize-news", {
@@ -68,7 +123,7 @@ export default inngest.createFunction(
                   Articles:
                   ${allArticles
                     .map(
-                      (article: any, index: number) =>
+                      (article: Article, index: number) =>
                         `${index + 1}. ${article.title}\n   ${
                           article.description
                         }\n   Source: ${article.url}\n`
@@ -81,21 +136,22 @@ export default inngest.createFunction(
         },
       });
 
-      const summaryText =
-        typeof (summary as any)?.response?.text === "function"
-          ? await (summary as any).response.text()
-          : (summary as any)?.candidates?.[0]?.content?.parts
-              ?.map((p: any) => p.text)
-              .join("") ??
-            (summary as any)?.choices?.[0]?.message?.content ??
-            (typeof summary === "string" ? summary : JSON.stringify(summary));
+      // handle potential async response.text()
+      let summaryText = extractSummaryText(summary);
+      if (!summaryText) {
+        const maybeResp = (
+          summary as { response?: { text?: () => Promise<string> } } | null
+        )?.response;
+        if (maybeResp?.text) {
+          summaryText = await maybeResp.text();
+        }
+      }
 
       if (!summaryText) {
         throw new Error("Failed to generate AI summary");
       }
 
       const htmlResult = await marked(summaryText);
-      // console.log(htmlResult);
 
       await step.run("send-email", async () => {
         await sendEmail(

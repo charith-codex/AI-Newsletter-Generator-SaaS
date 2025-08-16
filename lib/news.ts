@@ -1,6 +1,10 @@
-export async function fetchArticles(
-  categories: string[]
-): Promise<Array<{ title: string; url: string; description: string }>> {
+export type Article = {
+  title: string;
+  description: string;
+  url: string;
+};
+
+export async function fetchArticles(categories: string[]): Promise<Article[]> {
   const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
   const promises = categories.map(async (category) => {
