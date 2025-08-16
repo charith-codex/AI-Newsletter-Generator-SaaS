@@ -17,20 +17,20 @@ export default function Navbar() {
   }
 
   return (
-    <header className="bg-white/80 backdrop-blur-md shadow-xl border-b border-purple-100/20 sticky top-0 z-50">
+    <header className="bg-gradient-to-r from-emerald-700 via-emerald-400 to-teal-600  backdrop-blur-md shadow-xl border-b border-emerald-100/50 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <div className="flex items-center space-x-4">
             {/* Logo/Icon */}
-            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full shadow-lg">
-              <span className="text-xl">📧</span>
+            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-emerald-600 to-green-600 rounded-full shadow-lg ring-2 ring-slate-700/60">
+              <span className="text-xl font-extrabold text-slate-700">Z</span>
             </div>
             {/* Brand */}
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold text-slate-200">
                 AI Newsletter
               </h1>
-              <p className="text-xs text-gray-500 -mt-1">
+              <p className="text-xs text-slate-300">
                 Personalized & Smart
               </p>
             </div>
@@ -38,8 +38,8 @@ export default function Navbar() {
 
           <div className="flex items-center space-x-6">
             {/* User Info */}
-            <div className="hidden sm:flex items-center space-x-3 bg-gradient-to-r from-purple-50 to-pink-50 px-4 py-2 rounded-full border border-purple-100">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center">
+            <div className="hidden sm:flex items-center space-x-3 bg-gradient-to-r from-emerald-200 to-green-100 px-4 py-2 rounded-full border border-emerald-100 shadow-sm">
+              <div className="w-8 h-8 bg-gradient-to-r from-emerald-400 to-green-400 rounded-full flex items-center justify-center">
                 <svg
                   className="w-4 h-4 text-white"
                   fill="currentColor"
@@ -53,17 +53,17 @@ export default function Navbar() {
                 </svg>
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-medium text-gray-700">
+                <span className="text-sm font-medium text-emerald-900">
                   Welcome back!
                 </span>
-                <span className="text-xs text-gray-500 -mt-0.5">
+                <span className="text-xs text-emerald-800/70 -mt-0.5">
                   {user.email}
                 </span>
               </div>
             </div>
 
             {/* Mobile User Icon */}
-            <div className="sm:hidden w-10 h-10 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center shadow-lg">
+            <div className="sm:hidden w-10 h-10 bg-gradient-to-r from-emerald-400 to-green-400 rounded-full flex items-center justify-center shadow-lg">
               <svg
                 className="w-5 h-5 text-white"
                 fill="currentColor"
@@ -80,7 +80,7 @@ export default function Navbar() {
             {/* Logout Button */}
             <button
               onClick={handleLogout}
-              className="group inline-flex items-center space-x-2 px-4 py-2.5 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-medium rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              className="group inline-flex items-center space-x-2 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-400 text-white font-medium rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-emerald-600/40"
             >
               <svg
                 className="w-4 h-4 transition-transform duration-200 group-hover:rotate-12"

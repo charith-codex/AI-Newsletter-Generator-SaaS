@@ -37,20 +37,18 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-pink-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-emerald-400/30 flex items-center justify-center p-4">
       <div className="w-full max-w-lg">
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full mb-6 shadow-lg">
-            <span className="text-3xl">📧</span>
-          </div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">
+         
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-700 to-green-600 bg-clip-text text-transparent mb-3">
             AI Newsletter
           </h1>
-          <p className="text-xl text-gray-600 font-medium">
+          <p className="text-xl text-emerald-900/80 font-medium">
             {isSignedUp ? "Join the community" : "Welcome back"}
           </p>
-          <p className="text-gray-500 mt-2">
+          <p className="text-emerald-800/70 mt-2">
             {isSignedUp
               ? "Create your account to get started"
               : "Sign in to access your personalized newsletters"}
@@ -58,7 +56,7 @@ export default function SignInPage() {
         </div>
 
         {/* Sign In Card */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 p-8 mb-6">
+        <div className="bg-gradient-to-br from-emerald-500 via-emerald-400 to-teal-500 backdrop-blur-sm rounded-3xl shadow-2xl shadow-emerald-100/70 border border-emerald-100/50 p-8 mb-6">
           <form className="space-y-6" onSubmit={handleAuth}>
             {message && (
               <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-4">
@@ -85,13 +83,13 @@ export default function SignInPage() {
 
             {/* Email Field */}
             <div className="space-y-3">
-              <Label htmlFor="email" className="text-gray-700 font-semibold">
+              <Label htmlFor="email" className="text-emerald-900 font-semibold">
                 Email address
               </Label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <svg
-                    className="h-5 w-5 text-gray-400"
+                    className="h-5 w-5 text-emerald-500/70"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -112,20 +110,23 @@ export default function SignInPage() {
                   placeholder="Enter your email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pl-12 py-3 rounded-xl border-gray-300 focus:border-purple-400 focus:ring-purple-400 transition-colors duration-200"
+                  className="pl-12 py-3 rounded-xl border-emerald-200/70 focus:border-emerald-500 focus:ring-emerald-400 transition-colors duration-200"
                 />
               </div>
             </div>
 
             {/* Password Field */}
             <div className="space-y-3">
-              <Label htmlFor="password" className="text-gray-700 font-semibold">
+              <Label
+                htmlFor="password"
+                className="text-emerald-900 font-semibold"
+              >
                 Password
               </Label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <svg
-                    className="h-5 w-5 text-gray-400"
+                    className="h-5 w-5 text-emerald-500/70"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -146,7 +147,7 @@ export default function SignInPage() {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="pl-12 py-3 rounded-xl border-gray-300 focus:border-purple-400 focus:ring-purple-400 transition-colors duration-200"
+                  className="pl-12 py-3 rounded-xl border-emerald-200/70 focus:border-emerald-500 focus:ring-emerald-400 transition-colors duration-200"
                 />
               </div>
             </div>
@@ -154,7 +155,7 @@ export default function SignInPage() {
             {/* Sign In Button */}
             <Button
               type="submit"
-              className="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              className="w-full py-4 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-semibold text-lg rounded-xl shadow-lg shadow-emerald-200/60 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-emerald-600/40 transition-all duration-300 transform hover:scale-105"
               size="lg"
             >
               <span className="flex items-center justify-center space-x-2">
@@ -179,10 +180,10 @@ export default function SignInPage() {
           {/* Divider */}
           <div className="relative my-8">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200"></div>
+              <div className="w-full border-t border-emerald-100"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-gray-500 rounded-full">
+              <span className="px-4 bg-white text-emerald-700/80 rounded-full">
                 or
               </span>
             </div>
@@ -193,7 +194,7 @@ export default function SignInPage() {
             <Button
               onClick={() => setIsSignedUp((prev) => !prev)}
               variant="ghost"
-              className="text-purple-600 hover:text-purple-700 hover:bg-purple-50 font-medium px-6 py-3 rounded-xl transition-all duration-200"
+              className="text-slate-700 hover:text-emerald-800 hover:bg-emerald-50 font-medium px-6 py-3 rounded-xl transition-all duration-200"
             >
               {isSignedUp
                 ? "Already have an account? Sign In"
@@ -204,7 +205,7 @@ export default function SignInPage() {
 
         {/* Footer */}
         <div className="text-center">
-          <div className="inline-flex items-center space-x-2 text-sm text-gray-500 bg-white/60 backdrop-blur-sm rounded-full px-4 py-2">
+          <div className="inline-flex items-center space-x-2 text-sm text-emerald-800/70 bg-white/60 backdrop-blur-sm rounded-full px-4 py-2 border border-emerald-100/60">
             <svg
               className="w-4 h-4 text-green-500"
               fill="currentColor"
