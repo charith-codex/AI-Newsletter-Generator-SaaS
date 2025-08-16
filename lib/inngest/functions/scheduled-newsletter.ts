@@ -95,7 +95,7 @@ export default inngest.createFunction(
       }
 
       const htmlResult = await marked(summaryText);
-      console.log(htmlResult);
+      // console.log(htmlResult);
 
       await step.run("send-email", async () => {
         await sendEmail(

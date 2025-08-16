@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -15,25 +15,62 @@ export default function SignInPage() {
   const supabase = createClient();
   const router = useRouter();
 
+  // Immediately redirect authenticated users away from /sign-in
+  useEffect(() => {
+    let isMounted = true;
+    const checkAuth = async () => {
+      const { data } = await supabase.auth.getUser();
+      if (isMounted && data?.user) {
+        router.replace("/dashboard");
+      }
+    };
+    checkAuth();
+    return () => {
+      isMounted = false;
+    };
+  }, [router, supabase]);
+
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
+    setMessage("");
 
     try {
       if (isSignedUp) {
         const { error } = await supabase.auth.signUp({ email, password });
-
-        if (error) throw error;
+        if (error) {
+          const msg = (error.message || "").toLowerCase();
+          // Common Supabase/GoTrue patterns for duplicate email
+          if (
+            msg.includes("already registered") ||
+            msg.includes("already exists") ||
+            (msg.includes("email") && msg.includes("exists")) ||
+            (error as any)?.status === 422 ||
+            (error as any)?.code === "email_exists" ||
+            (error as any)?.code === "user_already_exists"
+          ) {
+            setMessage("Email already exists. Please sign in instead.");
+            setIsSignedUp(false);
+          } else {
+            setMessage(error.message || "Sign up failed. Please try again.");
+          }
+          return;
+        }
         setMessage("Please check your email for confirmation.");
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
-
-        if (error) throw error;
-        router.push("/dashboard");
+        if (error) {
+          setMessage(error.message || "Sign in failed. Please try again.");
+          return;
+        }
+        router.replace("/dashboard");
       }
-    } catch (error) {}
+    } catch (err) {
+      const unknown = err as { message?: string };
+      setMessage(unknown?.message || "Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -41,7 +78,6 @@ export default function SignInPage() {
       <div className="w-full max-w-lg">
         {/* Header */}
         <div className="text-center mb-10">
-         
           <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-700 to-green-600 bg-clip-text text-transparent mb-3">
             AI Newsletter
           </h1>

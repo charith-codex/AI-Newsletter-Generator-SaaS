@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const categories = [
   {
@@ -86,12 +87,12 @@ export default function SelectPage() {
     e.preventDefault();
 
     if (selectedCategories.length === 0) {
-      alert("Please select at least one category");
+      toast.warning("Please select at least one category");
       return;
     }
 
     if (!user) {
-      alert("Please sign in to continue");
+      toast.warning("Please sign in to continue");
       return;
     }
 
@@ -111,32 +112,39 @@ export default function SelectPage() {
         throw new Error("Failed to save preferences");
       }
 
-      alert(
-        "Your newsletter preferences have been saved! You'll start receiving newsletters according to your schedule."
+      toast.success(
+        "Your newsletter preferences have been saved."
       );
       router.push("/dashboard");
     } catch (error) {
       console.error("Error:", error);
-      alert("Failed to save preferences. Please try again.");
+      toast.error("Failed to save preferences. Please try again.");
     } finally {
       setIsSaving(false);
     }
   };
 
-return (
+  return (
     <div className="min-h-screen  bg-emerald-100 flex items-center justify-center p-4">
       <div className="w-full max-w-6xl bg-gradient-to-br from-emerald-500 via-emerald-400 to-teal-500 backdrop-blur-lg rounded-2xl shadow-2xl shadow-emerald-300/50 border border-emerald-200/50 p-6">
         <div className="text-center mb-6">
           <h1 className="text-3xl font-extrabold text-slate-800/70 bg-clip-text bg-gradient-to-r from-emerald-700 to-teal-600">
             Personalize Your Newsletter
           </h1>
-          <p className="text-emerald-800/90 mt-2 text-sm">Curate your news experience with your favorite topics and schedule</p>
+          <p className="text-emerald-800/90 mt-2 text-sm">
+            Curate your news experience with your favorite topics and schedule
+          </p>
         </div>
 
-        <form onSubmit={handleSavePreferences} className="flex flex-col lg:flex-row gap-6">
+        <form
+          onSubmit={handleSavePreferences}
+          className="flex flex-col lg:flex-row gap-6"
+        >
           {/* Categories Section */}
           <div className="flex-1">
-            <h2 className="text-xl font-semibold text-emerald-900 mb-3">Choose Your Interests</h2>
+            <h2 className="text-xl font-semibold text-emerald-900 mb-3">
+              Choose Your Interests
+            </h2>
             <div className="space-y-2">
               {categories.map((category) => (
                 <div
@@ -151,8 +159,12 @@ return (
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">{category.icon}</span>
                     <div>
-                      <h3 className="text-sm font-medium text-emerald-900">{category.name}</h3>
-                      <p className="text-xs text-emerald-700/70">{category.description}</p>
+                      <h3 className="text-sm font-medium text-emerald-900">
+                        {category.name}
+                      </h3>
+                      <p className="text-xs text-emerald-700/70">
+                        {category.description}
+                      </p>
                     </div>
                   </div>
                   <div
@@ -163,7 +175,11 @@ return (
                     }`}
                   >
                     {selectedCategories.includes(category.id) && (
-                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <svg
+                        className="w-3 h-3 text-white"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
                         <path
                           fillRule="evenodd"
                           d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -181,7 +197,9 @@ return (
           <div className="flex-1 flex flex-col gap-6">
             {/* Frequency Section */}
             <div>
-              <h2 className="text-xl font-semibold text-emerald-900 mb-3">Delivery Schedule</h2>
+              <h2 className="text-xl font-semibold text-emerald-900 mb-3">
+                Delivery Schedule
+              </h2>
               <div className="space-y-2">
                 {frequencyOptions.map((frequency) => (
                   <div
@@ -196,8 +214,12 @@ return (
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">{frequency.icon}</span>
                       <div>
-                        <h3 className="text-sm font-medium text-emerald-900">{frequency.name}</h3>
-                        <p className="text-xs text-emerald-700/70">{frequency.description}</p>
+                        <h3 className="text-sm font-medium text-emerald-900">
+                          {frequency.name}
+                        </h3>
+                        <p className="text-xs text-emerald-700/70">
+                          {frequency.description}
+                        </p>
                       </div>
                     </div>
                     <div
@@ -207,7 +229,9 @@ return (
                           : "border-emerald-300"
                       }`}
                     >
-                      {selectedFrequency === frequency.id && <div className="w-2.5 h-2.5 bg-white rounded-full" />}
+                      {selectedFrequency === frequency.id && (
+                        <div className="w-2.5 h-2.5 bg-white rounded-full" />
+                      )}
                     </div>
                   </div>
                 ))}
@@ -216,13 +240,20 @@ return (
 
             {/* Summary and Actions */}
             <div>
-              <h2 className="text-xl font-semibold text-emerald-900 mb-3">Your Selection</h2>
+              <h2 className="text-xl font-semibold text-emerald-900 mb-3">
+                Your Selection
+              </h2>
               <div className="bg-emerald-50/50 p-4 rounded-lg border border-emerald-200/50">
                 <div className="flex justify-between items-center px-20 font-semibold">
                   <span className="text-sm text-emerald-900">
-                    {selectedCategories.length} {selectedCategories.length === 1 ? "category" : "categories"}
+                    {selectedCategories.length}{" "}
+                    {selectedCategories.length === 1
+                      ? "category"
+                      : "categories"}
                   </span>
-                  <span className="text-sm text-emerald-800">{selectedFrequency} delivery</span>
+                  <span className="text-sm text-emerald-800">
+                    {selectedFrequency} delivery
+                  </span>
                 </div>
               </div>
               <div className="mt-4 flex gap-3">
@@ -237,8 +268,19 @@ return (
                 >
                   {isSaving ? (
                     <span className="flex items-center justify-center">
-                      <svg className="animate-spin mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <svg
+                        className="animate-spin mr-2 h-4 w-4 text-white"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
                         <path
                           className="opacity-75"
                           fill="currentColor"

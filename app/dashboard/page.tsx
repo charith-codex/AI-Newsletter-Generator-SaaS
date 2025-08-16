@@ -86,14 +86,21 @@ export default function DashboardPage() {
                     Categories
                   </h3>
                   <div className="mt-2 flex flex-wrap gap-2">
-                    {preferences.categories.map((category, key) => (
-                      <span
-                        key={key}
-                        className="inline-flex items-center rounded-lg border border-emerald-200 bg-emerald-100 px-3 py-1 text-sm font-medium text-emerald-800 shadow-sm"
-                      >
-                        {category}
+                    {Array.isArray(preferences.categories) &&
+                    preferences.categories.length > 0 ? (
+                      preferences.categories.map((category, key) => (
+                        <span
+                          key={key}
+                          className="inline-flex items-center rounded-lg border border-emerald-200 bg-emerald-100 px-3 py-1 text-sm font-medium text-emerald-800 shadow-sm"
+                        >
+                          {category}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="text-sm text-emerald-50/90">
+                        No categories selected
                       </span>
-                    ))}
+                    )}
                   </div>
                 </div>
 

@@ -1,18 +1,20 @@
 "use client";
 
 import { useAuth } from "@/contexts/AuthContext";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function Navbar() {
   const { user, signOut } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = async () => {
     await signOut();
     router.push("/sign-in");
   };
 
-  if (!user) {
+  // Hide navbar on sign-in page and when not authenticated
+  if (pathname === "/sign-in" || !user) {
     return null;
   }
 
@@ -30,9 +32,7 @@ export default function Navbar() {
               <h1 className="text-2xl font-bold text-slate-200">
                 AI Newsletter
               </h1>
-              <p className="text-xs text-slate-300">
-                Personalized & Smart
-              </p>
+              <p className="text-xs text-slate-300">Personalized & Smart</p>
             </div>
           </div>
 
